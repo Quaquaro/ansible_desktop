@@ -1,7 +1,7 @@
 - name: install Brave
   pacman:
     name:
-      - brave
+      - brave-browser
     state: present
   when:
     - ansible_distribution == "Archlinux"

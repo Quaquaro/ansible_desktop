@@ -2,7 +2,7 @@
   tags: packages,chromium,workstation-packages
   pacman:
     name: chromium
-    state: prensent
+    state: present
   when:
     - ansible_distribution == "Archlinux"
     - chromium is defined
