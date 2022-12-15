@@ -1,5 +1,3 @@
-
-
 - block:
     #Make sure users exist on the system
     - import_tasks: users/{{ username }}.yml
@@ -9,6 +7,3 @@
     - import_tasks: software/repositories.yml
     - import_tasks: software/zsh.yml
       # Performing remaining tasks:
-
-      rescue:
-        - set_fact: task_failed=true
