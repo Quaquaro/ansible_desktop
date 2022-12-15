@@ -1,30 +1,6 @@
 - name: software | keepassxc | install package
-  tags: packages,firefox,flatpak,workstation-packages
-  become_user: ctimm
-  flatpak:
-    name: org.keepassxc.KeePassXC
-    method: user
+  pacman:
+    name:
+      - keepassxc
     state: present
-
-- name: software | keepassxc | enable autostart
-  tags: packages,keepassxc,flatpak,workstation-packages
-  file:
-    src: /home/ctimm/.local/share/flatpak/exports/share/applications/org.keepassxc.KeePassXC.desktop
-    dest: /home/ctimm/.config/autostart/org.keepassxc.KeePassXC.desktop
-    owner: ctimm
-    group: ctimm
-    state: link
-
-- name: software | keepassxc | create keepassxc install directory
-  tags: packages,keepassxc,flatpak,workstation-packages
-  file:
-    path: /home/ctimm/.config/keepassxc
-    state: directory
-    owner: ctimm
-    group: ctimm
-    mode: 0700
-  register: keepassxc_config_dir
   when: keepassxc is defined and keepassxc == true
-
-- name: software | keepassxc | add initial keepassxc config
-  tags: packages,keepassxc,flatpak,workstation-packages

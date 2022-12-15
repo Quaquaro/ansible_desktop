@@ -1,18 +1,8 @@
-- name: software | chromium | install snap package
-  tags: packages,chromium,snap,workstation-packages
-  snap:
-    name: chromium
-    state: present
-  when:
-    - ansible_distribution != "Archlinux"
-    - chromium is defined
-    - chromium == true
-
 - name: software | chromium | install distro package (arch)
-  tags: packages,chromium,snap,workstation-packages
-  package:
+  tags: packages,chromium,workstation-packages
+  pacman:
     name: chromium
-    state: latest
+    state: prensent
   when:
     - ansible_distribution == "Archlinux"
     - chromium is defined
