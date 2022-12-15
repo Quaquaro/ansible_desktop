@@ -8,3 +8,4 @@
       - "{{ font_noto_emoji_package }}"
       - "{{ font_terminus_package }}"
       - tmux
+      - htop
