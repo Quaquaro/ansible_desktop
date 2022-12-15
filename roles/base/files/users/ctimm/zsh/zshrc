@@ -9,3 +9,4 @@ source ~/.zsh/plugins.zsh
 source ~/.zsh/prompt.zsh
 source ~/.zsh/setopt.zsh
 source ~/.zsh/theming.zsh
+source $ZSH/oh-my-zsh.sh
