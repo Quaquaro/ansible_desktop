@@ -4,17 +4,6 @@
     name: ctimm
     state: present
 
-- name: users | ctimm | create user
-  tags: ctimm,sudo,users
-  user:
-    name: ctimm
-    group: ctimm
-    groups: adm,ansible,{{ sudo_group }}
-    state: present
-    comment: "Christoph Timm"
-    password: "{{ ctimm_passwd }}"
-    shell: /bin/zsh
-
 - name: users | ctimm | add sudoers file
   tags: ctimm,settings,sudo,system,users
   copy:

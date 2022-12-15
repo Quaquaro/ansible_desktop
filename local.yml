@@ -1,5 +1,5 @@
 ---
-- hosts: workstation
+- hosts: all
   become: true
 
   pre_tasks:
@@ -34,13 +34,6 @@
   become: true
   roles:
     - server
-
-    - name: copy wallpaper file
-      copy:
-        src: files/wallpaper.png
-        dest: /usr/share/backgrounds/ansible-wallpaper.png
-        owner: root
-        group: root
 
 # end of run cleanup and reporting
 - hosts: all

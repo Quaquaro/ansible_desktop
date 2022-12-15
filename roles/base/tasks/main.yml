@@ -1,11 +1,11 @@
 - block:
-  #Make sure users exist on the system
-  - import_tasks: users/ctimm.yml
-  - import_tasks: users/root.yml
+    #Make sure users exist on the system
+    - import_tasks: users/ctimm.yml
+    - import_tasks: users/root.yml
 
-# Install software
-- import_tasks: software/repositories.yml
-# Performing remaining tasks:
+    # Install software
+    - import_tasks: software/repositories.yml
+    # Performing remaining tasks:
 
-rescue:
-  - set_fact: task_failed=true
+    - rescue:
+        - set_fact: task_failed=true
