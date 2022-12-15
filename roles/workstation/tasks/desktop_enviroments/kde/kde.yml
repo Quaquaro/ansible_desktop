@@ -1,0 +1,9 @@
+- name: install KDE and KDE apps
+  pacman:
+    name:
+      - plasma-meta
+      - kde-applications-meta
+      - sddm-kcm
+      - clementine
+      - audacious
+    state: present

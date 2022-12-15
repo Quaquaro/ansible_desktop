@@ -1,0 +1,6 @@
+- name : check updates
+  pacman:
+    update_cache: yes
+    upgrade: yes
+  
+  
