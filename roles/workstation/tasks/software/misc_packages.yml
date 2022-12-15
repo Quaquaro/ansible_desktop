@@ -1,6 +1,6 @@
 - name: software | install workstation distribution packages
   tags: packages,workstation-packages
-  packages:
+  package:
     name:
       - "{{ font_fira_mono_package }}"
       - "{{ font_hack_ttf_package }}"

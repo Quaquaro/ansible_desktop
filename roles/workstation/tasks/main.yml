@@ -39,6 +39,3 @@
     - import_tasks: software/vscode.yml
     - import_tasks: software/wireshark.yml
     - import_tasks: software/zoom.yml
-
-      rescue:
-        - set_fact: task_failed=true
