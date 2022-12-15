@@ -2,7 +2,7 @@
 - name: copy zsh p10k dotfile
   tags: powerlevel10k
   copy:
-    src: /users/ctimm/.p10k.zsh
+    src: users/ctimm/.p10k.zsh
     dest: /home/{{ username }}/.p10k.zsh
     force: False
     owner: "{{ username }}"
