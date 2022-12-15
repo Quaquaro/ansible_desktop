@@ -1,9 +1,0 @@
-- name: install Brave
-  pacman:
-    name:
-      - brave-browser
-    state: present
-  when:
-    - ansible_distribution == "Archlinux"
-    - brave is defined
-    - brave == true

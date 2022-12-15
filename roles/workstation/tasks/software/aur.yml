@@ -3,8 +3,12 @@
     state=directory
     owner={{ username }}
     group={{ username }}
+  when:
+    - ansible_distribution == "Archlinux"
 
 - name: Install AUR base packages
   aur:
     name: "{{ aur.packages }}"
     user: "{{ username }}"
+  when:
+    - ansible_distribution == "Archlinux"
