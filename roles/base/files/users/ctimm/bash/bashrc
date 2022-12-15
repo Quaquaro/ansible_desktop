@@ -9,7 +9,7 @@ source ~/.bash/bash_functions
 
 # Env
 export TERM=xterm-256color
-export EDITOR=vim
+export EDITOR=nano
 
 # Show system information at login
 if [ -t 0 ]; then
