@@ -1,9 +1,48 @@
 ---
-- hosts: localhost
-  connection: local
+- hosts: workstation
   become: true
 
   tasks:
-  - name: install htop
-    package:
-      name: htop
+    - name: install packages
+      package:
+        name:
+          - htop
+          - tmux
+
+    - name: copy wallpaper file
+      copy:
+        src: files/wallpaper.png
+        dest: /usr/share/backgrounds/ansible-wallpaper.png
+        owner: root
+        group: root
+
+    # - name: set wallpaper
+    #   dconf:
+    #     key:
+    #     value:
+    - name: copy config files
+      copy:
+        src: files/dotfiles/bashrc
+        dest: /home/username/.bashrc
+        owner: username
+        group: username
+
+    - name: add ansible user
+      user:
+        name: velociraptor
+        system: yes
+
+    - name: set up sudo for ansible user
+      copy:
+        src: files/sudoer_velociraptor
+        dest: /etc/sudoers.d/velociraptor
+        owner: root
+        group: root
+        mode: 0440
+
+    - name: add ansible-pull cron job
+      cron:
+        name: ansible auto-provision
+        user: velociraptor
+        minute: "*/10"
+        job: ansible-pull -o -U https://github.com/quaquaro/ansible_desktop.git
