@@ -2,6 +2,5 @@ username: ctimm
 
 # application selection
 
-brave: true
 chromium: false
 keepassxc: true
