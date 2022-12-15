@@ -1,0 +1,125 @@
+- name: users | ctimm | create group
+  tags: groups,ctimm,users
+  group:
+    name: ctimm
+    state: present
+
+- name: users | ctimm | create user
+  tags: ctimm,sudo,users
+  user:
+    name: ctimm
+    group: ctimm
+    groups: adm,ansible,{{ sudo_group }}
+    state: present
+    comment: "Christoph Timm"
+    password: "{{ ctimm_passwd }}"
+    shell: /bin/zsh
+
+- name: users | ctimm | add sudoers file
+  tags: ctimm,settings,sudo,system,users
+  copy:
+    src: users/sudoers_ctimm
+    dest: /etc/sudoers.d/ctimm
+    owner: root
+    group: root
+    mode: 0440
+
+- name: users | ctimm | create .ssh directory
+  tags: dotfiles,ctimm,ssh,users
+  file:
+    path: "{{ item.dir }}"
+    state: directory
+    owner: ctimm
+    group: ctimm
+    mode: 0700
+  with_items:
+    - { dir: "/home/ctimm/.ssh" }
+
+- name: users | ctimm | create config directories
+  tags: dotfiles,ctimm,tmux,users,zsh
+  file:
+    path: /home/ctimm/{{ item.dir }}
+    state: directory
+    owner: ctimm
+    group: ctimm
+    mode: 0700
+  with_items:
+    - { dir: ".bash" }
+    - { dir: ".config" }
+    - { dir: ".config/htop" }
+    - { dir: ".tmux" }
+    - { dir: ".tmux/config" }
+    - { dir: ".tmux/plugins" }
+    - { dir: ".zsh" }
+
+- name: users | ctimm | copy tmux config (workstation version)
+  tags: dotfiles,users,ctimm,tmux,users,vim,zsh
+  copy:
+    src: users/ctimm/tmux/tmux.conf.workstation
+    dest: /home/ctimm/.tmux.conf
+    owner: ctimm
+    group: ctimm
+    mode: 0600
+
+- name: users | ctimm | copy dotfiles
+  tags: dotfiles,users,ctimm,tmux,users,vim,zsh
+  copy:
+    src: users/ctimm/{{ item.src }}
+    dest: /home/ctimm/{{ item.dest }}
+    owner: ctimm
+    group: ctimm
+    mode: 0600
+  with_items:
+    - { src: "bash/bash_aliases", dest: ".bash/bash_aliases" }
+    - { src: "bash/bash_profile", dest: ".bash_profile" }
+    - { src: "bash/bash_prompt", dest: ".bash/bash_prompt" }
+    - { src: "bash/bash_functions", dest: ".bash/bash_functions" }
+    - { src: "bash/bashrc", dest: ".bashrc" }
+    - { src: "bash/profile", dest: ".profile" }
+    - { src: "git/gitconfig", dest: ".gitconfig" }
+    - { src: "zsh/zshrc", dest: ".zshrc" }
+
+- name: users | ctimm | clone tmux-completion plugin repository
+  tags: dotfiles,ctimm,users,tmux
+  git:
+    repo: https://github.com/srsudar/tmux-completion.git
+    dest: /home/ctimm/.tmux/plugins/completion
+    force: yes
+  notify: update_tmux_plugin_perms
+
+- name: users | ctimm | clone tmux-continuum plugin repository
+  tags: dotfiles,ctimm,users,tmux
+  git:
+    repo: https://github.com/tmux-plugins/tmux-continuum
+    dest: /home/ctimm/.tmux/plugins/continuum
+    force: yes
+  notify: update_tmux_plugin_perms
+
+- name: users | ctimm | clone tmux-resurrect plugin repository
+  tags: dotfiles,ctimm,users,tmux
+  git:
+    repo: https://github.com/tmux-plugins/tmux-resurrect
+    dest: /home/ctimm/.tmux/plugins/resurrect
+    force: yes
+  notify: update_tmux_plugin_perms
+
+- name: users | ctimm | copy individual zsh config files
+  tags: dotfiles,ctimm,users,zsh
+  copy:
+    src: users/ctimm/zsh/{{ item.src }}
+    dest: /home/ctimm/.zsh/{{ item.src }}
+    owner: ctimm
+    group: ctimm
+    mode: 0600
+  with_items:
+    - { src: "aliases.zsh" }
+    - { src: "bindkey.zsh" }
+    - { src: "completion.zsh" }
+    - { src: "exports.zsh" }
+    - { src: "functions.zsh" }
+    - { src: "history.zsh" }
+    - { src: "path.zsh" }
+    - { src: "plugins.zsh" }
+    - { src: "prompt.zsh" }
+    - { src: "setopt.zsh" }
+    - { src: "theming.zsh" }

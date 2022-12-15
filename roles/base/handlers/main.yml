@@ -1,0 +1,7 @@
+---
+- name: update_tmux_plugin_perms
+  file:
+    path: /home/{{user_name}}/.tmux/plugins
+    owner: "{{ user_name }}"
+    group: "{{ user_name}}"
+    recurse: true

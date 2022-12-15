@@ -1,30 +1,11 @@
----
-- name: Update cache and upgrade
-  community.general.pacman:
-    update_cache: true
-    upgrade: true
-    upgrade_extra_args: --noconfirm
-  become: true
-  tags:
-    - pre
+- block:
+  #Make sure users exist on the system
+  - import_tasks: users/ctimm.yml
+  - import_tasks: users/root.yml
 
-- name: Install utils
-  community.general.pacman:
-    name: "{{ utils }}"
-    state: present
-  become: true
-  tags:
-    - utils
-    - base
+# Install software
+- import_tasks: software/repositories.yml
+# Performing remaining tasks:
 
-- include: pip.yml
-- include: zsh.yml
-- include: bash.yml
-
-- name: Create Workspaces directory
-  ansible.builtin.file:
-    path: /home/{{ user_name }}/Workspace
-    state: directory
-    mode: 0755
-  become_user: "{{ user_name }}"
-  become: true
+rescue:
+  - set_fact: task_failed=true
