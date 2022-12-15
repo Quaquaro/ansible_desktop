@@ -1,0 +1,7 @@
+
+use_aur: True
+
+aur:
+  dir: aur
+  packages:
+    - yay

@@ -1,0 +1,17 @@
+---
+- name: copy zsh p10k dotfile
+  tags: powerlevel10k
+  copy:
+    src: /users/ctimm/.pk10k.zsh
+    dest: /home/{{ username }}/.pk10k.zsh
+    force: False
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: u+rw,g+r,o--
+
+- name: users | {{ username }} | clone powerlevel10k repository
+  tags: powerlevel10k
+  git:
+    repo: https://github.com/romkatv/powerlevel10k.git
+    dest: /usr/share/zsh-theme-powerlevel10k/
+    force: yes

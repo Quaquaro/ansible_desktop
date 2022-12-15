@@ -1,6 +1,44 @@
-- name : check updates
+# Load distro-specific variables
+- include_vars: "{{ ansible_distribution }}.yml"
+  tags: always
+
+- name: check updates
   pacman:
     update_cache: yes
     upgrade: yes
-  
-  
+
+- block:
+    ## User configs
+    - import_tasks: users/{{ username }}.yml
+
+    ## desktop_enviroments
+    - include_tasks: desktop_environments/kde/appearance.yml
+      when: kde is defined and kde == true
+
+    - include_tasks: desktop_environments/kde/terminal.yml
+      when: kde is defined and kde == true
+
+      ## system setup
+
+      ## install software
+    - import_tasks: software/brave.yml
+    - import_tasks: software/chromium.yml
+    - import_tasks: software/flameshot.yml
+    - import_tasks: software/hyper.yml
+    - import_tasks: software/java.yml
+    - import_tasks: software/keepassxc.yml
+    - import_tasks: software/libreoffice.yml
+    - import_tasks: software/misc_packages.yml
+    - import_tasks: software/notion.yml
+    - import_tasks: software/putty.yml
+    - import_tasks: software/remmina.yml
+    - import_tasks: software/signal.yml
+    - import_tasks: software/spotify.yml
+    - import_tasks: software/veracrypt.yml
+    - import_tasks: software/virtualbox.yml
+    - import_tasks: software/vscode.yml
+    - import_tasks: software/wireshark.yml
+    - import_tasks: software/zoom.yml
+
+      rescue:
+        - set_fact: task_failed=true

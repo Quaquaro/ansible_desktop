@@ -1,0 +1,29 @@
+---
+- name: install zsh
+  pacman:
+    name:
+      - zsh
+      - zsh-completions
+      - zsh-syntax-highlighting
+    state: present
+
+- name: install fzf for zsh
+  pacman:
+    name:
+      - fzf
+    state: present
+
+- name: change "{{username}}"'s shell to zsh
+  become: yes
+  user:
+    name: "{{ username }}"
+    shell: /usr/bin/zsh
+
+- name: clone oh-my-zsh for users
+  tags: -skip_ansible_lint
+  become: yes
+  become_user: "{{ username }}"
+  command: "git clone -c core.autocrlf=input https://github.com/robbyrussell/oh-my-zsh.git .oh-my-zsh"
+  args:
+    chdir: "~{{ username }}"
+    creates: "~{{ username }}/.oh-my-zsh"

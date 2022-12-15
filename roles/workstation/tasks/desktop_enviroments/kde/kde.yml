@@ -7,3 +7,4 @@
       - clementine
       - audacious
     state: present
+    when: install_kde == True
