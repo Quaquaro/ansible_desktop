@@ -2,12 +2,38 @@
 - hosts: workstation
   become: true
 
-  tasks:
-    - name: install packages
-      package:
-        name:
-          - htop
-          - tmux
+  pre_tasks:
+    - name: pre-run | update package cache (arch)
+      tags: always
+      pacman: update_cache=yes
+      changed_when: False
+      when: ansible_distribution == "Archlinux"
+
+    - name: pre-run | update package cache (debian, etc)
+      tags: always
+      apt: update_cache=yes
+      changed_when: False
+      when: ansible_distribution in ["Debian", "Ubuntu"]
+
+# run roles
+
+- hosts: all
+  tags: base
+  become: true
+  roles:
+    - base
+
+- hosts: workstation
+  tags: workstation
+  become: true
+  roles:
+    - workstation
+
+- hosts: server
+  tags: server
+  become: true
+  roles:
+    - server
 
     - name: copy wallpaper file
       copy:
@@ -16,33 +42,33 @@
         owner: root
         group: root
 
-    # - name: set wallpaper
-    #   dconf:
-    #     key:
-    #     value:
-    - name: copy config files
-      copy:
-        src: files/dotfiles/bashrc
-        dest: /home/username/.bashrc
-        owner: username
-        group: username
+# end of run cleanup and reporting
+- hosts: all
+  become: true
+  tasks:
+    - name: cleanup package cache (debian and ubuntu)
+      tags: always
+      apt:
+        autoclean: yes
+      changed_when: false
+      when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
 
-    - name: add ansible user
-      user:
-        name: velociraptor
-        system: yes
+    - name: autoremove orphan packages (debian and ubuntu)
+      tags: always
+      apt:
+        autoremove: yes
+        purge: yes
+      when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
 
-    - name: set up sudo for ansible user
-      copy:
-        src: files/sudoer_velociraptor
-        dest: /etc/sudoers.d/velociraptor
-        owner: root
-        group: root
-        mode: 0440
+    - name: send completion alert
+      include_tasks: playbooks/send_completion_alert.yml
+      tags: always
+      when:
+        - task_failed is not defined
 
-    - name: add ansible-pull cron job
-      cron:
-        name: ansible auto-provision
-        user: velociraptor
-        minute: "*/10"
-        job: ansible-pull -o -U https://github.com/quaquaro/ansible_desktop.git
+    - name: send failure alert
+      include_tasks: playbooks/send_failure_alert.yml
+      tags: always
+      when:
+        - task_failed is defined
+        - task_failed == true
