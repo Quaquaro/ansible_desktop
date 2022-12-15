@@ -1,0 +1,30 @@
+---
+- name: Update cache and upgrade
+  community.general.pacman:
+    update_cache: true
+    upgrade: true
+    upgrade_extra_args: --noconfirm
+  become: true
+  tags:
+    - pre
+
+- name: Install utils
+  community.general.pacman:
+    name: "{{ utils }}"
+    state: present
+  become: true
+  tags:
+    - utils
+    - base
+
+- include: pip.yml
+- include: zsh.yml
+- include: bash.yml
+
+- name: Create Workspaces directory
+  ansible.builtin.file:
+    path: /home/{{ user_name }}/Workspace
+    state: directory
+    mode: 0755
+  become_user: "{{ user_name }}"
+  become: true

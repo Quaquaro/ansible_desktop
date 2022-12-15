@@ -1,0 +1,4 @@
+---
+- name: restart os
+  ansible.builtin.reboot:
+  listen: restart os
