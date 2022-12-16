@@ -101,4 +101,12 @@
     force: yes
   notify: update_omz
 
+- name: Clone PowerLevel10k
+  tags: p10k
+  git:
+    repo: https://github.com/romkatv/powerlevel10k.git
+    dest: /home/ctimm/.oh-my-zsh/custom/themes/powerlevel10k
+    force: yes
+  notify : update_omz
+
 
