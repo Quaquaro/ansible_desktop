@@ -1,7 +1,1 @@
 
-[submodule "roles/library/ansible-aur"]
-	path = roles/library/ansible-aur
-	url = https://github.com/pigmonkey/ansible-aur.git
-[submodule "roles/library/ansible-yay"]
-	path = roles/library/ansible-yay
-	url = https://github.com/mnussbaum/ansible-yay.git
