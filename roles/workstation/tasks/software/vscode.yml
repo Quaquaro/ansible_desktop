@@ -1,0 +1,9 @@
+- name: software | vscode | install distro package (arch)
+  tags: packages,vscode,workstation-packages
+  pacman:
+    name: code
+    state: present
+  when:
+    - ansible_distribution == "Archlinux"
+    - vscode is defined
+    - vscode == true
