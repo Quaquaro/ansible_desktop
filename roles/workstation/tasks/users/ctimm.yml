@@ -8,6 +8,7 @@
     owner: "{{ username }}"
     group: "{{ username }}"
     mode: u+rw,g+r,o--
+  
 
 - name: users | {{ username }} | clone powerlevel10k repository
   tags: powerlevel10k

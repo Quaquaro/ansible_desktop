@@ -1,3 +1,7 @@
+# Load distro-specific variables
+- include_vars: "{{ ansible_distribution }}.yml"
+  tags: always
+
 - block:
     #Make sure users exist on the system
     - import_tasks: users/{{ username }}.yml
@@ -5,5 +9,7 @@
 
     # Install software
     - import_tasks: software/repositories.yml
+    - import_tasks: software/packages_utils.yml
     - import_tasks: software/zsh.yml
+      when: ansible_lsb.id == "EndeavourOS"
       # Performing remaining tasks:

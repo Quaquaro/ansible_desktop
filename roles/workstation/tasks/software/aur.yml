@@ -5,6 +5,7 @@
     group={{ username }}
   when:
     - ansible_distribution == "Archlinux"
+    - ansible_lsb.id == "ManjaroLinux"
 
 - name: Install AUR base packages
   aur:
@@ -12,3 +13,4 @@
     user: "{{ username }}"
   when:
     - ansible_distribution == "Archlinux"
+    - ansible_lsb.id == "ManjaroLinux"

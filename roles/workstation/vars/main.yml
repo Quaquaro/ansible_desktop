@@ -3,4 +3,4 @@ username: ctimm
 aur:
   dir: aur
   packages:
-    - brave
+    - yay

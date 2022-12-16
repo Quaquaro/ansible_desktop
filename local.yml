@@ -9,12 +9,6 @@
       changed_when: False
       when: ansible_distribution == "Archlinux"
 
-    - name: pre-run | update package cache (debian, etc)
-      tags: always
-      apt: update_cache=yes
-      changed_when: False
-      when: ansible_distribution in ["Debian", "Ubuntu"]
-
 # run roles
 
 - hosts: all
@@ -23,11 +17,11 @@
   roles:
     - base
 
-- hosts: workstation
-  tags: workstation
-  become: true
-  roles:
-    - workstation
+# - hosts: workstation
+#   tags: workstation
+#   become: true
+#   roles:
+#     - workstation
 
 # - hosts: server
 #   tags: server
@@ -35,20 +29,4 @@
 #   roles:
 #     - server
 
-# end of run cleanup and reporting
-- hosts: all
-  become: true
-  tasks:
-    - name: cleanup package cache (debian and ubuntu)
-      tags: always
-      apt:
-        autoclean: yes
-      changed_when: false
-      when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]
 
-    - name: autoremove orphan packages (debian and ubuntu)
-      tags: always
-      apt:
-        autoremove: yes
-        purge: yes
-      when: ansible_distribution in ["Debian", "Pop!_OS", "Ubuntu"]

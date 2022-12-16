@@ -1,7 +1,11 @@
 ---
 - name: update_tmux_plugin_perms
   file:
-    path: /home/{{user_name}}/.tmux/plugins
-    owner: "{{ user_name }}"
-    group: "{{ user_name}}"
+    path: /home/{{username}}/.tmux/plugins
+    owner: "{{ username }}"
+    group: "{{ username}}"
     recurse: true
+    
+- name: restart os
+  ansible.builtin.reboot:
+  listen: restart os

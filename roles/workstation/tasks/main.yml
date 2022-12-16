@@ -10,6 +10,7 @@
 - block:
     ## User configs
     - import_tasks: users/{{ username }}.yml
+      when: ansible_lsb.id == "EndeavourOS"
 
     ## desktop_enviroments
     - include_tasks: desktop_environments/kde/appearance.yml
