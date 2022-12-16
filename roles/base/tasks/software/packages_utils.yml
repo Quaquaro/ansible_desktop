@@ -14,11 +14,13 @@
       - whois
       - "{{ dconf_package }}"
       - flatpak
-      - 
+      
 
-- name: system setup | fonts | firacode nf
-  tags: yay,fonts
-  yay: name=otf-nerd-fonts-fira-code state=present
+- name: Install package_name_1 and package_name_2 using yay
+  kewlfft.aur.aur:
+    use: yay
+    name:
+      - otf-nerd-fonts-fira-code 
   when: ansible_lsb.id == "EndeavourOS"
 
 
