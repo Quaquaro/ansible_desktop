@@ -93,6 +93,15 @@
     force: yes
   notify: update_tmux_plugin_perms
 
+- name: Clone oh-my-zsh
+  tags: omz
+  git:
+    repo: https://github.com/ohmyzsh/ohmyzsh.git
+    dest: /home/ctimm/.oh-my-zsh
+    force: yes
+  notify: update_omz
+
+
 # - name: users | ctimm | copy individual zsh config files
 #   tags: dotfiles,ctimm,users,zsh
 #   copy:

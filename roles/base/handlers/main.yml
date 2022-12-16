@@ -5,7 +5,10 @@
     owner: "{{ username }}"
     group: "{{ username}}"
     recurse: true
-    
-- name: restart os
-  ansible.builtin.reboot:
-  listen: restart os
+
+- name: update_omz
+  file:
+    path: /home/{{username}}/.oh-my-zsh
+    owner: "{{ username }}"
+    group: "{{ username}}"
+    recurse: true

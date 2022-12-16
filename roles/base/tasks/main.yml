@@ -12,4 +12,5 @@
     - import_tasks: software/packages_utils.yml
     - import_tasks: software/zsh.yml
       when: ansible_lsb.id == "EndeavourOS"
-      # Performing remaining tasks:
+      
+ 
