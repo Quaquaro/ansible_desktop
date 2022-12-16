@@ -8,6 +8,8 @@
     - import_tasks: users/root.yml
 
     # Install software
+    - import_tasks: software/aur.yml
+      when: ansible_lsb.id == "ManjaroLinux"
     - import_tasks: software/repositories.yml
     - import_tasks: software/packages_utils.yml
     - import_tasks: software/zsh.yml
