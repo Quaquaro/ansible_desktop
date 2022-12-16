@@ -8,3 +8,6 @@
       - audacious
     state: present
     when: install_kde == True
+
+- name: import .kde4 file | Manjaro
+  
