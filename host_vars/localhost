@@ -2,5 +2,6 @@ username: ctimm
 
 # application selection
 
-chromium: false
+chromium: true
 keepassxc: true
+vscode: true
