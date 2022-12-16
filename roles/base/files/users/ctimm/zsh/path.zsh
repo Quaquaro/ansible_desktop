@@ -1,1 +1,0 @@
-path+=/home/ctimm/.local/bin

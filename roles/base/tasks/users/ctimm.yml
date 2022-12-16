@@ -39,7 +39,7 @@
     - { dir: ".tmux" }
     - { dir: ".tmux/config" }
     - { dir: ".tmux/plugins" }
-    #- { dir: ".zsh" }
+   
 
 - name: users | ctimm | copy tmux config (workstation version)
   tags: dotfiles,users,ctimm,tmux,users,vim,zsh
@@ -67,7 +67,7 @@
     - { src: "bash/profile", dest: ".profile" }
     - { src: "git/gitconfig", dest: ".gitconfig" }
     - { src: "htop/htoprc", dest: ".config/htop/htoprc" }
-    # - { src: "zsh/zshrc", dest: ".zshrc" }
+    - { src: "zsh/zshrc", dest: ".zshrc" }
 
 - name: users | ctimm | clone tmux-completion plugin repository
   tags: dotfiles,ctimm,users,tmux
@@ -102,23 +102,3 @@
   notify: update_omz
 
 
-# - name: users | ctimm | copy individual zsh config files
-#   tags: dotfiles,ctimm,users,zsh
-#   copy:
-#     src: users/ctimm/zsh/{{ item.src }}
-#     dest: /home/ctimm/.zsh/{{ item.src }}
-#     owner: ctimm
-#     group: ctimm
-#     mode: 0600
-#   with_items:
-#     - { src: "aliases.zsh" }
-#     - { src: "bindkey.zsh" }
-#     - { src: "completion.zsh" }
-#     - { src: "exports.zsh" }
-#     - { src: "functions.zsh" }
-#     - { src: "history.zsh" }
-#     - { src: "path.zsh" }
-#     - { src: "plugins.zsh" }
-#     - { src: "prompt.zsh" }
-#     - { src: "setopt.zsh" }
-#     - { src: "theming.zsh" }

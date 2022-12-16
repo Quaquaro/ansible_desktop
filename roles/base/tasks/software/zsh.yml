@@ -3,14 +3,10 @@
   pacman:
     name:
       - zsh
-      - zsh-completions
-      - zsh-syntax-highlighting
-    state: present
-
-- name: install fzf for zsh
-  pacman:
-    name:
+      - z
       - fzf
+      - zsh-autosuggestions
+      - zsh-syntax-highlighting
     state: present
 
 - name: change "{{username}}"'s shell to zsh
