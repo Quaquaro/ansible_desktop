@@ -13,6 +13,13 @@
       - wget
       - whois
       - "{{ dconf_package }}"
-      
+      - flatpak
+      - 
+
+- name: system setup | fonts | firacode nf
+  tags: yay,fonts
+  yay: name=otf-nerd-fonts-fira-code state=present
+  when: ansible_lsb.id == "EndeavourOS"
+
 
 

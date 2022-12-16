@@ -4,3 +4,4 @@ aur:
   dir: aur
   packages:
     - yay
+    - snapd
