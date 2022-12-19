@@ -1,7 +1,7 @@
 - name: Install hyper over yay
   tags: hyper
   become_user: "{{ username }}"
-  command: yay -S hyper --noconfirm
+  command: yay -S hyper 
   when:
     - ansible_distribution == "Archlinux"
     - hyper is defined
