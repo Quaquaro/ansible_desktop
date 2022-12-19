@@ -1,0 +1,11 @@
+- name: install java17
+  tags: packages,java17,workstation-packages
+  pacman:
+    name: 
+     - jre17-openjdk
+     - jre17-openjdk-headless
+    state: present
+    when:
+    - ansible_distribution == "Archlinux"
+    - java17 is defined
+    - java17 == true
