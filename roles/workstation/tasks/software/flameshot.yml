@@ -1,4 +1,5 @@
 - name: install flameshot
+  tags: packages,flameshot,workstation-packages
   pacman:
     name: flameshot
     state: present
