@@ -5,8 +5,6 @@
       - zsh
       - z
       - fzf
-      - zsh-autosuggestions
-      - zsh-syntax-highlighting
     state: present
 
 - name: change "{{username}}"'s shell to zsh

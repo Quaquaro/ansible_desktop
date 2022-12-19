@@ -6,3 +6,13 @@
     - ansible_distribution == "Archlinux"
     - hyper is defined
     - hyper == true
+
+- name: Copy config
+  tags: hyper-config
+  copy:
+    src: users/ctimm/.hyper.js
+    dest: /home/{{ username }}/
+    force: False
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: u+rw,g+r,o--
