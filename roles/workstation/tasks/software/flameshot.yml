@@ -1,0 +1,9 @@
+- name: install flameshot
+  pacman:
+    name: flameshot
+    state: present
+    extra_args: sync
+    when:
+    - ansible_distribution == "Archlinux"
+    - flameshot is defined
+    - flameshot == true

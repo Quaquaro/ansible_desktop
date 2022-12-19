@@ -3,5 +3,6 @@ username: ctimm
 # application selection
 
 chromium: true
+flameshot: true
 keepassxc: true
 vscode: true
