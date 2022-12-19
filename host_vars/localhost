@@ -7,5 +7,6 @@ flameshot: true
 hyper: true
 java17: true
 keepassxc: true
+libreoffice: false
 vscode: true
 zoom: true
