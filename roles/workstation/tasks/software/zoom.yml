@@ -1,9 +1,7 @@
 - name: Install zoom over yay
   tags: zoom
-  kewlfft.aur.aur:
-    use: yay
-    name:
-     - zoom
+  become_user: "{{ username }}"
+  command: yay -S zoom
   when:
     - ansible_distribution == "Archlinux"
     - zoom is defined
