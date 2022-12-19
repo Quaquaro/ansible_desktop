@@ -4,6 +4,7 @@
     use: yay
     name:
      - hyper
+    become_user: ctimm 
   when:
     - ansible_distribution == "Archlinux"
     - hyper is defined
