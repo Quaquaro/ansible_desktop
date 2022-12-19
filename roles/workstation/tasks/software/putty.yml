@@ -1,0 +1,9 @@
+- name: software | putty | install distro package (arch)
+  tags: packages,putty,workstation-packages
+  pacman:
+    name: putty
+    state: present
+  when:
+    - ansible_distribution == "Archlinux"
+    - putty is defined
+    - putty == true

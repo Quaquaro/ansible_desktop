@@ -1,0 +1,9 @@
+- name: software | remmina | install distro package (arch)
+  tags: packages,remmina,workstation-packages
+  pacman:
+    name: remmina
+    state: present
+  when:
+    - ansible_distribution == "Archlinux"
+    - remmina is defined
+    - remmina == true

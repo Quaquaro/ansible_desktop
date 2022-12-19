@@ -1,0 +1,9 @@
+- name: software | wireshark | install distro package (arch)
+  tags: packages,wireshark,workstation-packages
+  pacman:
+    name: wireshark-qt
+    state: present
+  when:
+    - ansible_distribution == "Archlinux"
+    - wireshark is defined
+    - wireshark == true

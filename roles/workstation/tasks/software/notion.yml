@@ -1,0 +1,9 @@
+- name: software | notion | install distro package (arch)
+  tags: packages,notion,workstation-packages
+  snap:
+    name: notion-snap
+    state: present
+  when:
+    - ansible_distribution == "Archlinux"
+    - notion is defined
+    - notion == true

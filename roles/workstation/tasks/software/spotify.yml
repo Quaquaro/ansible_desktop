@@ -1,0 +1,9 @@
+- name: software | spotify | install distro package (arch)
+  tags: packages,spotify,workstation-packages
+  flatpak:
+    name: spotify
+    state: present
+  when:
+    - ansible_distribution == "Archlinux"
+    - spotify is defined
+    - spotify == true

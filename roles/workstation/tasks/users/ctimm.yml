@@ -9,7 +9,7 @@
     group: "{{ username }}"
     mode: u+rw,g+r,o--
 
-- name: Copy config
+- name: Copy hyper config
   tags: hyper-config
   copy:
     src: users/ctimm/.hyper.js

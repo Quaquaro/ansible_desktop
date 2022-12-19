@@ -1,0 +1,9 @@
+- name: software | signal | install distro package (arch)
+  tags: packages,signal,workstation-packages
+  pacman:
+    name: signal-desktop
+    state: present
+  when:
+    - ansible_distribution == "Archlinux"
+    - signal is defined
+    - signal == true

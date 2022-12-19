@@ -8,5 +8,13 @@ hyper: false
 java17: true
 keepassxc: true
 libreoffice: false
+notion: true
+putty: true
+remmina: true
+signal: true
+spotify: true
+veracrypt: true
+virtualbox: true
 vscode: true
+wireshark: true
 zoom: false

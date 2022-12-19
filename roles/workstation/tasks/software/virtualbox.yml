@@ -1,0 +1,9 @@
+- name: software | virtualbox | install distro package (arch)
+  tags: packages,virtualbox,workstation-packages
+  pacman:
+    name: virtualbox
+    state: present
+  when:
+    - ansible_distribution == "Archlinux"
+    - virtualbox is defined
+    - virtualbox == true

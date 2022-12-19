@@ -9,3 +9,5 @@
       - "{{ font_terminus_package }}"
       - tmux
       - htop
+      - snapd
+      - flatpak

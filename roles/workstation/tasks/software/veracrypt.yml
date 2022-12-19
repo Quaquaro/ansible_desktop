@@ -1,0 +1,9 @@
+- name: software | veracrypt | install distro package (arch)
+  tags: packages,veracrypt,workstation-packages
+  pacman:
+    name: veracrypt
+    state: present
+  when:
+    - ansible_distribution == "Archlinux"
+    - veracrypt is defined
+    - veracrypt == true
