@@ -4,5 +4,8 @@ username: ctimm
 
 chromium: true
 flameshot: true
+hyper: true
+java17: true
 keepassxc: true
 vscode: true
+zoom: true

@@ -3,7 +3,7 @@
   pacman:
     name: flameshot
     state: present
-    when:
+  when:
     - ansible_distribution == "Archlinux"
     - flameshot is defined
     - flameshot == true

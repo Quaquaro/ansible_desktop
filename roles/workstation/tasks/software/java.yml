@@ -5,7 +5,7 @@
      - jre17-openjdk
      - jre17-openjdk-headless
     state: present
-    when:
+  when:
     - ansible_distribution == "Archlinux"
     - java17 is defined
     - java17 == true

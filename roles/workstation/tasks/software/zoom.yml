@@ -1,0 +1,10 @@
+- name: Install zoom over yay
+  tags: zoom
+  kewlfft.aur.aur:
+    use: yay
+    name:
+     - zoom
+  when:
+    - ansible_distribution == "Archlinux"
+    - zoom is defined
+    - zoom == true

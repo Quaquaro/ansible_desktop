@@ -1,0 +1,10 @@
+- name: Install hyper over yay
+  tags: hyper
+  kewlfft.aur.aur:
+    use: yay
+    name:
+     - hyper
+  when:
+    - ansible_distribution == "Archlinux"
+    - hyper is defined
+    - hyper == true
