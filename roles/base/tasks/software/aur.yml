@@ -14,7 +14,7 @@
     validate: 'visudo -cf %s'
 
 - name: Install yay using makepkg if it isn't installed already
-  aur:
+  kewlfft.aur.aur:
     name: yay
     use: makepkg
     state: present
