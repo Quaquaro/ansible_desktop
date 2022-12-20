@@ -12,6 +12,7 @@ notion: true
 putty: true
 remmina: true
 signal: true
+snap: false
 spotify: true
 veracrypt: true
 virtualbox: true

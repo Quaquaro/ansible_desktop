@@ -9,5 +9,12 @@
       - "{{ font_terminus_package }}"
       - tmux
       - htop
-      - snapd
       - flatpak
+
+- name: software | snapd
+  tags: packages,workstation-packages
+  command: yay -S snapd
+  when:
+    - ansible_distribution == "Archlinux"
+    - snap is defined
+    - snap == true
