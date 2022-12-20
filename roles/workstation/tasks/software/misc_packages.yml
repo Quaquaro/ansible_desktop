@@ -28,3 +28,5 @@
     - ansible_distribution == "Archlinux"
     - snap is defined
     - snap == true
+  notify: 
+    - start-snapd-socket

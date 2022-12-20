@@ -1,0 +1,6 @@
+- name: start-snapd-socket
+  become: yes
+  service:
+    name: snapd.socket
+    state: started
+    enabled: yes
