@@ -9,6 +9,14 @@ burpsuite_version: latest
 
 burpsuite_release_channel: stable
 
+_burpsuite_edition_enum:
+  community: community
+  pro: pro
+
+_burpsuite_release_channel_enum:
+  stable: Stable
+  early_adopter: Early Adopter
+
 # Burp Suite install directory. If left undefined, it will install under the user's home directory
 # burpsuite_install_dir:
 
