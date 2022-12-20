@@ -7,6 +7,11 @@
       - "{{ font_inconsolata_package }}"
       - "{{ font_noto_emoji_package }}"
       - "{{ font_terminus_package }}"
+      - python-attrs 
+      - python-wheel
+      - python-pip
+      - python-setuptools
+      - python-virtualenv
       - tmux
       - htop
       - flatpak

@@ -30,6 +30,7 @@
     - import_tasks: software/libreoffice.yml
     - import_tasks: software/misc_packages.yml
     - import_tasks: software/notion.yml
+    - import_tasks: software/pipPackages.yml
     - import_tasks: software/putty.yml
     - import_tasks: software/remmina.yml
     - import_tasks: software/signal.yml

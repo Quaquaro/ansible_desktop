@@ -1,5 +1,6 @@
 - name: install | pip packages
   tags: pip
-  pip: 
-    - konsave
-    - jmespath
+  pip:
+    name: 
+      - konsave
+      - jmespath
