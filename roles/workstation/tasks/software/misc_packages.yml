@@ -7,11 +7,16 @@
       - "{{ font_inconsolata_package }}"
       - "{{ font_noto_emoji_package }}"
       - "{{ font_terminus_package }}"
+      - go
+      - go-tools
+      - python-platformdirs
+      - python-filelock
+      - python-distlib
+      - python-virtualenv
       - python-attrs 
       - python-wheel
       - python-pip
       - python-setuptools
-      - python-virtualenv
       - tmux
       - htop
       - flatpak
