@@ -22,6 +22,7 @@
       ## system setup
 
       ## install software
+    - import_tasks: software/burp-suite.yml
     - import_tasks: software/chromium.yml
     - import_tasks: software/flameshot.yml
     - import_tasks: software/hyper.yml

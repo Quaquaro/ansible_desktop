@@ -2,20 +2,20 @@ username: ctimm
 
 # application selection
 
-chromium: true
-flameshot: true
+chromium: false
+flameshot: false
 hyper: false
-java17: true
-keepassxc: true
+java17: false
+keepassxc: false
 libreoffice: false
-notion: true
-putty: true
-remmina: true
-signal: true
+notion: false
+putty: false
+remmina: false
+signal: false
 snap: false
-spotify: true
-veracrypt: true
-virtualbox: true
-vscode: true
-wireshark: true
+spotify: false
+veracrypt: false
+virtualbox: false
+vscode: false
+wireshark: false
 zoom: false

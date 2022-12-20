@@ -1,4 +1,30 @@
 username: ctimm
 
 
-  
+# Explicit for the Burpsuite
+
+burpsuite_edition: pro
+
+burpsuite_version: latest
+
+burpsuite_release_channel: stable
+
+# Burp Suite install directory. If left undefined, it will install under the user's home directory
+# burpsuite_install_dir:
+
+# Extras directory for jars and activation script. If left undefined, it will install under the user's home directory
+# burpsuite_extras_dir:
+
+# Path to save the Burp Suite CA public certificate
+# burpsuite_cacert_path: "{{ burpsuite_extras_dir }}/PortSwigger_CA.der"
+
+# Additional jar files
+burpsuite_extras_jars:
+  jruby:
+    jar: jruby-complete.jar
+    url: https://repo1.maven.org/maven2/org/jruby/jruby-complete/9.3.6.0/jruby-complete-9.3.6.0.jar
+    checksum: sha256:051cb8620a831a7b8ba465652090e277e112e1d9c13584b90210a432e55a623c
+  jython:
+    jar: jython-standalone.jar
+    url: https://repo1.maven.org/maven2/org/python/jython-standalone/2.7.2/jython-standalone-2.7.2.jar
+    checksum: sha1:15592c29538abd36d15570eda9fa055ed1a618ba

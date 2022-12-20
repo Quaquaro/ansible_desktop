@@ -1,0 +1,208 @@
+# Validation
+- name: burpsuite_edition is valid
+  assert:
+    that:
+      - burpsuite_edition in _burpsuite_edition_enum
+    fail_msg: "{{ burpsuite_edition }} not a valid value for burpsuite_edition"
+    quiet: true
+  changed_when: false
+
+- name: burpsuite_release_channel is valid
+  assert:
+    that:
+      - burpsuite_release_channel in _burpsuite_release_channel_enum
+    fail_msg: "burpsuite_release_channel must be either 'stable' or 'early_adopter'"
+    quiet: true
+  changed_when: false
+  when: burpsuite_version == "latest"
+##################################################
+#Variables
+- name: Set installer version
+  set_fact:
+    _burpsuite_installer_version: "{{ burpsuite_version }}"
+  when: burpsuite_version != "latest"
+
+- name: Set release channel
+  set_fact:
+    burpsuite_channel: "{{ _burpsuite_release_channel_enum[burpsuite_release_channel] }}"
+
+- name: Get user details
+  user:
+    name: "{{ username }}"
+  register: burpsuite_user_details
+
+- name: Set burpsuite_install_dir
+  set_fact:
+    burpsuite_install_dir: "{{ burpsuite_user_details.home }}/BurpSuite{{ burpsuite_edition | capitalize }}"
+  when: burpsuite_install_dir is undefined
+
+- name: Set burpsuite_extras_dir
+  set_fact:
+    burpsuite_extras_dir: "{{ burpsuite_user_details.home }}/BurpSuiteExtras"
+  when: burpsuite_extras_dir is undefined
+
+- name: Set burpsuite_cacert_path
+  set_fact:
+    burpsuite_cacert_path: "{{ burpsuite_extras_dir }}/PortSwigger_CA.der"
+  when: burpsuite_cacert_path is undefined
+###################################################
+# Look up latest version
+- name: Retrieve release data from portswigger.net
+  set_fact:
+    burp_release_data: "{{ lookup('url', 'https://portswigger.net/burp/releases/data?lastId=-1&pageSize=20') }}"
+
+- name: Identify latest version number for release channel
+  set_fact:
+    _burpsuite_installer_version: "{{ burp_release_data | json_query(version_query) }}"
+  vars:
+    version_query: >-
+      ResultSet.Results[?
+        releaseChannels[0] == '{{ burpsuite_channel }}' &&
+        builds[?
+          ProductId == '{{ burpsuite_edition }}' &&
+          ProductPlatform == 'Linux'
+        ]
+      ].version | sort(@)[-1:] | [0]
+- name: Latest version
+  debug:
+    msg: "Latest version for Burp Suite {{ burpsuite_edition | capitalize }} ({{ burpsuite_channel }}) is {{ _burpsuite_installer_version }}"
+
+- name: Identify installer checksum
+  set_fact:
+    burpsuite_installer_sha256_checksum: "{{ burp_release_data | json_query(checksum_query) }}"
+  vars:
+    checksum_query: >-
+      ResultSet.Results[].builds[?
+        Version == '{{ _burpsuite_installer_version }}' &&
+        ProductId == '{{ burpsuite_edition }}' &&
+        ProductPlatform == 'Linux'
+      ][].Sha256Checksum
+      | [0]
+
+###################################################
+# Check for prev installation
+- name: Check for previous install
+  stat:
+    path: "{{ burpsuite_install_dir }}/.install4j/i4jparams.conf"
+  register: install_config_stat
+
+- name: Read install4j config file
+  slurp:
+    src: "{{ burpsuite_install_dir }}/.install4j/i4jparams.conf"
+  register: install4j_config_contents
+  when: install_config_stat.stat.exists
+
+- name: Get installed version
+  set_fact:
+    installed_version: >-
+      {{ install4j_config_contents.content
+        | b64decode
+        | regex_search('applicationVersion="[0-9.]+"', multiline=True)
+        | regex_replace('applicationVersion="([0-9.]+)"', '\1')
+      }}
+  when: install_config_stat.stat.exists
+
+###################################################
+# Installation
+- name: Set installer script filename
+  set_fact:
+    burpsuite_installer_script: "burpsuite_{{ burpsuite_edition }}_linux_v{{ _burpsuite_installer_version | regex_replace('\\.', '_') }}.sh"
+
+- name: Download Burp Suite installer
+  get_url:
+    url: "https://portswigger.net/burp/releases/download?product={{ burpsuite_edition }}&type=linux&version={{ _burpsuite_installer_version }}"
+    dest: "/tmp/{{ burpsuite_installer_script }}"
+    checksum: "sha256:{{ burpsuite_installer_sha256_checksum }}"
+    owner: "{{ burpsuite_user }}"
+    group: "{{ burpsuite_user_details.group }}"
+    mode: '0640'
+
+- name: Create response.varfile for unattended install
+  template:
+    src: burpsuite_response.varfile.j2
+    dest: /tmp/burpsuite_response.varfile
+    owner: "{{ burpsuite_user }}"
+    group: "{{ burpsuite_user_details.group }}"
+    mode: '0640'
+
+- name: Install Burp Suite
+  command:
+    cmd: "/bin/sh {{ burpsuite_installer_script }} -q -varfile burpsuite_response.varfile -overwrite"
+    chdir: /tmp
+  changed_when: true
+  become: true
+  become_user: "{{ burpsuite_user }}"
+
+- name: Clean-up files
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - "/tmp/{{ burpsuite_installer_script }}"
+    - /tmp/burpsuite_response.varfile
+
+###################################################
+# Install extras
+
+- name: Create directory for Burp Suite extras
+  file:
+    path: "{{ burpsuite_extras_dir }}"
+    state: directory
+    owner: "{{ burpsuite_user }}"
+    group: "{{ burpsuite_user_details.group }}"
+    mode: '0755'
+
+- name: Download jar files
+  get_url:
+    url: "{{ item.value.url }}"
+    dest: "{{ burpsuite_extras_dir }}/{{ item.value.jar }}"
+    checksum: "{{ item.value.checksum }}"
+    owner: "{{ burpsuite_user }}"
+    group: "{{ burpsuite_user_details.group }}"
+    mode: '0640'
+  loop: "{{ lookup('dict', burpsuite_extras_jars) }}"
+
+- name: Copy autoburp.py script to extras directory
+  copy:
+    src: autoburp.py
+    dest: "{{ burpsuite_extras_dir }}/autoburp.py"
+    owner: "{{ burpsuite_user }}"
+    group: "{{ burpsuite_user_details.group }}"
+    mode: '0644'
+
+
+###################################################
+# Create User-Config
+- name: Check for existing user config
+  stat:
+    path: "{{ burpsuite_user_details.home }}/.BurpSuite/UserConfig{{ burpsuite_edition | capitalize }}.json"
+  register: burpsuite_user_config_stat
+
+# Create basic user config
+- name: Create Burp Suite user config
+  template:
+    src: UserConfig.json.j2
+    dest: "{{ burpsuite_user_details.home }}/.BurpSuite/UserConfig{{ burpsuite_edition | capitalize }}.json"
+    owner: "{{ burpsuite_user }}"
+    group: "{{ burpsuite_user_details.group }}"
+    mode: '0600'
+  when: not burpsuite_user_config_stat.stat.exists
+
+# Otherwise, update existing user config
+- name: Update jruby path
+  lineinfile:
+    path: "{{ burpsuite_user_details.home }}/.BurpSuite/UserConfig{{ burpsuite_edition | capitalize }}.json"
+    regexp: '^(.*)"location_of_jruby_jar_file":".*'
+    line: '\1"location_of_jruby_jar_file":"{{ burpsuite_extras_dir }}/{{ burpsuite_extras_jars.jruby.jar }}"'
+    backrefs: true
+  when: burpsuite_user_config_stat.stat.exists
+
+- name: Update jython path
+  lineinfile:
+    path: "{{ burpsuite_user_details.home }}/.BurpSuite/UserConfig{{ burpsuite_edition | capitalize }}.json"
+    regexp: '^(.*)"location_of_jython_standalone_jar_file":".*'
+    line: '\1"location_of_jython_standalone_jar_file":"{{ burpsuite_extras_dir }}/{{ burpsuite_extras_jars.jython.jar }}"'
+    backrefs: true
+  when: burpsuite_user_config_stat.stat.exists
+
+###################################################

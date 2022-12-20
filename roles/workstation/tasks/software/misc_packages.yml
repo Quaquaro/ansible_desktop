@@ -20,6 +20,7 @@
       - tmux
       - htop
       - flatpak
+  when: packages == true
 
 - name: software | snapd
   tags: packages,workstation-packages
