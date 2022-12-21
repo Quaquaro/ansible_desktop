@@ -162,14 +162,6 @@
     mode: '0640'
   loop: "{{ lookup('dict', burpsuite_extras_jars) }}"
 
-- name: Copy autoburp.py script to extras directory
-  copy:
-    src: autoburp.py
-    dest: "{{ burpsuite_extras_dir }}/autoburp.py"
-    owner: "{{ username }}"
-    group: "{{ burpsuite_user_details.group }}"
-    mode: '0644'
-
 
 ###################################################
 # Create User-Config
