@@ -113,7 +113,7 @@
     url: "https://portswigger.net/burp/releases/download?product={{ burpsuite_edition }}&type=linux&version={{ _burpsuite_installer_version }}"
     dest: "/tmp/{{ burpsuite_installer_script }}"
     checksum: "sha256:{{ burpsuite_installer_sha256_checksum }}"
-    owner: "{{ burpsuite_user }}"
+    owner: "{{ username }}"
     group: "{{ burpsuite_user_details.group }}"
     mode: '0640'
 
@@ -121,7 +121,7 @@
   template:
     src: burpsuite_response.varfile.j2
     dest: /tmp/burpsuite_response.varfile
-    owner: "{{ burpsuite_user }}"
+    owner: "{{ username }}"
     group: "{{ burpsuite_user_details.group }}"
     mode: '0640'
 
@@ -131,7 +131,7 @@
     chdir: /tmp
   changed_when: true
   become: true
-  become_user: "{{ burpsuite_user }}"
+  become_user: "{{ username }}"
 
 - name: Clean-up files
   file:
@@ -148,7 +148,7 @@
   file:
     path: "{{ burpsuite_extras_dir }}"
     state: directory
-    owner: "{{ burpsuite_user }}"
+    owner: "{{ username }}"
     group: "{{ burpsuite_user_details.group }}"
     mode: '0755'
 
@@ -157,7 +157,7 @@
     url: "{{ item.value.url }}"
     dest: "{{ burpsuite_extras_dir }}/{{ item.value.jar }}"
     checksum: "{{ item.value.checksum }}"
-    owner: "{{ burpsuite_user }}"
+    owner: "{{ username }}"
     group: "{{ burpsuite_user_details.group }}"
     mode: '0640'
   loop: "{{ lookup('dict', burpsuite_extras_jars) }}"
@@ -166,43 +166,43 @@
   copy:
     src: autoburp.py
     dest: "{{ burpsuite_extras_dir }}/autoburp.py"
-    owner: "{{ burpsuite_user }}"
+    owner: "{{ username }}"
     group: "{{ burpsuite_user_details.group }}"
     mode: '0644'
 
 
 ###################################################
 # Create User-Config
-- name: Check for existing user config
-  stat:
-    path: "{{ burpsuite_user_details.home }}/.BurpSuite/UserConfig{{ burpsuite_edition | capitalize }}.json"
-  register: burpsuite_user_config_stat
+# - name: Check for existing user config
+#   stat:
+#     path: "{{ burpsuite_user_details.home }}/.BurpSuite/UserConfig{{ burpsuite_edition | capitalize }}.json"
+#   register: burpsuite_user_config_stat
 
-# Create basic user config
-- name: Create Burp Suite user config
-  template:
-    src: UserConfig.json.j2
-    dest: "{{ burpsuite_user_details.home }}/.BurpSuite/UserConfig{{ burpsuite_edition | capitalize }}.json"
-    owner: "{{ burpsuite_user }}"
-    group: "{{ burpsuite_user_details.group }}"
-    mode: '0600'
-  when: not burpsuite_user_config_stat.stat.exists
+# # Create basic user config
+# - name: Create Burp Suite user config
+#   template:
+#     src: UserConfig.json.j2
+#     dest: "{{ burpsuite_user_details.home }}/.BurpSuite/UserConfig{{ burpsuite_edition | capitalize }}.json"
+#     owner: "{{ username }}"
+#     group: "{{ burpsuite_user_details.group }}"
+#     mode: '0600'
+#   when: not burpsuite_user_config_stat.stat.exists
 
-# Otherwise, update existing user config
-- name: Update jruby path
-  lineinfile:
-    path: "{{ burpsuite_user_details.home }}/.BurpSuite/UserConfig{{ burpsuite_edition | capitalize }}.json"
-    regexp: '^(.*)"location_of_jruby_jar_file":".*'
-    line: '\1"location_of_jruby_jar_file":"{{ burpsuite_extras_dir }}/{{ burpsuite_extras_jars.jruby.jar }}"'
-    backrefs: true
-  when: burpsuite_user_config_stat.stat.exists
+# # Otherwise, update existing user config
+# - name: Update jruby path
+#   lineinfile:
+#     path: "{{ burpsuite_user_details.home }}/.BurpSuite/UserConfig{{ burpsuite_edition | capitalize }}.json"
+#     regexp: '^(.*)"location_of_jruby_jar_file":".*'
+#     line: '\1"location_of_jruby_jar_file":"{{ burpsuite_extras_dir }}/{{ burpsuite_extras_jars.jruby.jar }}"'
+#     backrefs: true
+#   when: burpsuite_user_config_stat.stat.exists
 
-- name: Update jython path
-  lineinfile:
-    path: "{{ burpsuite_user_details.home }}/.BurpSuite/UserConfig{{ burpsuite_edition | capitalize }}.json"
-    regexp: '^(.*)"location_of_jython_standalone_jar_file":".*'
-    line: '\1"location_of_jython_standalone_jar_file":"{{ burpsuite_extras_dir }}/{{ burpsuite_extras_jars.jython.jar }}"'
-    backrefs: true
-  when: burpsuite_user_config_stat.stat.exists
+# - name: Update jython path
+#   lineinfile:
+#     path: "{{ burpsuite_user_details.home }}/.BurpSuite/UserConfig{{ burpsuite_edition | capitalize }}.json"
+#     regexp: '^(.*)"location_of_jython_standalone_jar_file":".*'
+#     line: '\1"location_of_jython_standalone_jar_file":"{{ burpsuite_extras_dir }}/{{ burpsuite_extras_jars.jython.jar }}"'
+#     backrefs: true
+#   when: burpsuite_user_config_stat.stat.exists
 
 ###################################################
