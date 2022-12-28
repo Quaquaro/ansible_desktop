@@ -1,7 +1,19 @@
-# ansible_desktop
+# Setup Manjaro or EndeavourOS
 
-configuration for laptop and desktop based on linux
+Ansible playbooks for Manjaro and EndeavourOS
+
+## Prerequisites
+
+- Fresh installation of Manjaro or EndeavourOS
+- Python
+- Ansible
+- SSH-Connection 
+- Setup Git Server 
+- Clone Repository
+
+## Usage
+
 
 ## TODO
+ - Cleaning up and Testing on both Manjaro and EndeavourOS
 
-- Update Software

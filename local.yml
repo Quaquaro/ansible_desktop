@@ -3,12 +3,15 @@
   become: true
 
   pre_tasks:
-    - name: pre-run | update package cache (arch)
+    - name: pre-run | update package cache
       tags: always
       pacman: update_cache=yes
       changed_when: False
       when: ansible_distribution == "Archlinux"
 
+    - name: pre-run | update package cache yay
+      tags: always
+      
 # run roles
 
 - hosts: all
