@@ -36,6 +36,7 @@ Ansible playbooks for Manjaro and EndeavourOS
     - Connect to GitLab-Server via SSH
     - Clone the repo
     - `cd ansible_desktop`
+    - `ansible-galaxy collection install -r requirements.yml`
     - `ansible-playbook local.yml` 
 ## TODO
  - Cleaning up and Testing on both Manjaro and EndeavourOS
