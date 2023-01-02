@@ -12,6 +12,7 @@
       - "{{ font_inconsolata_package }}"
       - "{{ font_noto_emoji_package }}"
       - "{{ font_terminus_package }}"
+      - "{{ font_hack_nerd-package }}"
   when: ansible_lsb.id == "EndeavourOS"
 
 - name: system setup | utils | install utility packages

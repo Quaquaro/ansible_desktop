@@ -26,7 +26,7 @@
     mode: 0600
 
 - name: users | ctimm | copy dotfiles
-  tags: dotfiles,users,ctimm,tmux,users,vim,zsh
+  tags: dotfiles,users,ctimm,tmux,vim,zsh
   copy:
     src: users/ctimm/{{ item.src }}
     dest: /home/ctimm/{{ item.dest }}
