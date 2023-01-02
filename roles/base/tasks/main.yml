@@ -3,9 +3,6 @@
   tags: always
 
 - block:
-    - name: get the non root user
-      set_fact:
-        username: "{{ ansible_user_id }}"
     - import_tasks: users/{{ username }}.yml
     - import_tasks: users/root.yml
 
