@@ -31,7 +31,7 @@ Ansible playbooks for Manjaro and EndeavourOS
 ## Usage
 - After system you have restart the system
     - Install Ansible:
-    - `sudo pacman -Sy ansible`
+    - `sudo pacman -S ansible`
     - Eventually connect to VPN
     - Connect to GitLab-Server via SSH
     - Clone the repo
