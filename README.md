@@ -35,6 +35,8 @@ Ansible playbooks for Manjaro and EndeavourOS
     - Eventually connect to VPN
     - Connect to GitLab-Server via SSH
     - Clone the repo
+    - `cd ansible_desktop`
+    - `ansible-playbook local.yml` 
 ## TODO
  - Cleaning up and Testing on both Manjaro and EndeavourOS
 
