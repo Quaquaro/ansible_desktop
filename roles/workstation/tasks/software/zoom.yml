@@ -1,6 +1,6 @@
 - name: Install zoom over yay
   tags: zoom
-  become_user: "{{ username }}"
+  become_user: "{{ ansible_user_id }}"
   command: yay -S zoom
   when:
     - ansible_distribution == "Archlinux"

@@ -7,7 +7,7 @@ Ansible playbooks for Manjaro and EndeavourOS
 - Fresh installation of Manjaro or EndeavourOS
 - Python
 - Ansible
-- SSH-Connection 
+- SSH-Connection for GitLabServer
 - Setup Git Server 
 - Clone Repository
 
