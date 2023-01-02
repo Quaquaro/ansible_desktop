@@ -7,21 +7,28 @@
       - fzf
     state: present
 
-- name: change "{{username}}"'s shell to zsh
+- name: change "{{ansible_user_id}}"'s shell to zsh
   become: yes
   user:
-    name: "{{ username }}"
+    name: "{{ ansible_user_id }}"
     shell: /usr/bin/zsh
 
 
 - name: clone zsh-autosuggestions
   git:
     repo: https://github.com/zsh-users/zsh-autosuggestions
-    dest: /home/ctimm/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+    dest: /home/{{ ansible_user_id }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions
     force: yes
 
 - name: clone zsh-syntax-highlighting
   git:
     repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-    dest: /home/ctimm/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    dest: /home/{{ ansible_user_id }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+    force: yes
+
+- name: users | {{ ansible_user_id }} | clone powerlevel10k repository
+  tags: powerlevel10k
+  git:
+    repo: https://github.com/romkatv/powerlevel10k.git
+    dest: /usr/share/zsh-theme-powerlevel10k/
     force: yes

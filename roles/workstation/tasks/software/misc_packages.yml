@@ -2,11 +2,6 @@
   tags: packages,workstation-packages
   package:
     name:
-      - "{{ font_fira_mono_package }}"
-      - "{{ font_hack_ttf_package }}"
-      - "{{ font_inconsolata_package }}"
-      - "{{ font_noto_emoji_package }}"
-      - "{{ font_terminus_package }}"
       - go
       - go-tools
       - python-platformdirs
@@ -17,10 +12,9 @@
       - python-wheel
       - python-pip
       - python-setuptools
-      - tmux
-      - htop
       - flatpak
-  when: packages == true
+  when: 
+   - packages == true
 
 - name: software | snapd
   tags: packages,workstation-packages
