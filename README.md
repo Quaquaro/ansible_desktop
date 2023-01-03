@@ -14,6 +14,14 @@ Ansible playbooks for Manjaro and EndeavourOS
 
 
 ### Manjaro 
+- Install Manjaro 
+    - Choose a language, location and keyboard
+    - If you want to install EndeavourOS next to Windows choose "Manual partitioning" otherwise choose "Erase disk"
+    - Check Encrypt system and set a passphrase
+    - Create your user account
+    - Hit install! :rocket:
+    - Shutdown the system after the installation process is complete
+    - Remove the USB-Stick
 
 ### EndeavourOS
 - Install Endeavour with your preferred desktop environment
@@ -29,12 +37,12 @@ Ansible playbooks for Manjaro and EndeavourOS
     - Remove the USB-Stick
 
 ## Usage
-- After system you have restart the system
+- After system you have restarted the system
     - Install Ansible:
     - `sudo pacman -S ansible`
     - Eventually connect to VPN
     - Connect to GitLab-Server via SSH
-    - Clone the repo
+    - Navigate to GitLab and clone the repo
     - `cd ansible_desktop`
     - `ansible-galaxy collection install -r requirements.yml`
     - `ansible-playbook local.yml` 
