@@ -16,19 +16,17 @@
   when: ansible_lsb.id == "EndeavourOS"
 
 - name: system setup | utils | install utility packages
-  tags: packages,system,settings
+  tags: packages,system,settings,fonts
   pacman:
     state: present
     name:
-      - curl
-      - htop
-      - neofetch
       - nmap
-      - rsync
       - tmux
       - traceroute
-      - wget
       - whois
-      - "{{ dconf_package }}"
+      - vim
+      - "{{ font_fira_mono_package }}"
+      - "{{ font_hack_nerd_package }}"
+
   when: ansible_lsb.id == "ManjaroLinux"
 
